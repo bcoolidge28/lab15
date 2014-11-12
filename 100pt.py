@@ -10,7 +10,7 @@
 from Tkinter import *
 root = Tk()
 # Create our drawpad and oval
-drawpad = Canvas(root, width=480,height=320, background='black')
+drawpad = Canvas(root, width=480,height=320, background='grey')
 targetx1 = 200
 targety1 = 20
 targetx2 = 280
@@ -96,28 +96,37 @@ class MyApp:
 	direction = 4    
         def animate2(self):
             global direction
+            global target
             x1, y1, x2, y2 = drawpad.coords(target)
+            px1, py1, px2, py2 = drawpad.coords(player)
             if x2 > drawpad.winfo_width():
                 direction = - 4
             elif x1 < 0:
                 direction = 5
-            drawpad.move(target,direction,0)
-                            
+                         
             
             #  This will trigger our collision detect function
             didWeHit = self.collisionDetect()
-            # Use the value of didWeHit to create an if statement
-            # that determines whether to run 
+            if didWeHit == False:
+                drawpad.move(target,direction,0)
             drawpad.after(1,self.animate2) 
-            
 	# Use a function to do our collision detection
 	def collisionDetect(self):
                 global target
 		global drawpad
                 global player
+                x1, y1, x2, y2 = drawpad.coords(target)
+                px1, py1, px2, py2 = drawpad.coords(player)
+                if (px1 > x1 and px2 < x2) and (py1 > y1 and py2 < y2):
+                    return True
+                else:
+                    return False
                 
                 
         
+
+          
+          
                 # Get the co-ordinates of our player AND our target
                 # using x1,y1,x2,y2 = drawpad.coords(object)
 
